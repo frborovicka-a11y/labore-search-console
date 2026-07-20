@@ -2,6 +2,6 @@
   "name": "labore-search-console-mcp",
   "version": "1.0.0",
   "type": "module",
-  "scripts": { "start": "node server.mjs" },
+  "private": true,
   "engines": { "node": ">=20" }
 }
