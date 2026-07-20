@@ -8,7 +8,7 @@ const json = (res, status, body) => {
 const rpc = (id, result) => ({ jsonrpc: "2.0", id, result });
 const rpcError = (id, code, message) => ({ jsonrpc: "2.0", id, error: { code, message } });
 
-const tools = [
+export const tools = [
   {
     name: "list_sites",
     description: "Vypíše weby dostupné v Google Search Console.",
@@ -69,7 +69,7 @@ async function google(token, url, options = {}) {
   return text ? JSON.parse(text) : { success: true };
 }
 
-async function callTool(name, args, token) {
+export async function callTool(name, args, token) {
   if (name === "list_sites") return google(token, "https://www.googleapis.com/webmasters/v3/sites");
   if (name === "search_analytics") {
     const { siteUrl, ...body } = args;
@@ -114,4 +114,6 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, "0.0.0.0", () => console.log(`Listening on ${PORT}`));
+if (!process.env.VERCEL) {
+  server.listen(PORT, "0.0.0.0", () => console.log(`Listening on ${PORT}`));
+}
